@@ -19,7 +19,3 @@ I kept the patch focused and did not rewrite unrelated parts of the application.
 ## Testing
 
 I manually tested search/status filtering, pagination validation, filter pagination reset, normal task loading, and frontend error handling.
-
-## AI assistance
-
-I used AI assistance to identify potential bugs, understand their impact, and review fixes. I inspected and tested the changes myself before keeping them.
