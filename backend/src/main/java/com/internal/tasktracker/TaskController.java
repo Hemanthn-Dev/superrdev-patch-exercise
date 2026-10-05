@@ -32,20 +32,25 @@ public class TaskController {
             normalizedStatus = TaskStatus.valueOf(status.toUpperCase()).name();
         }
 
-        // Query complexity estimation for logging
-        int complexityScore = Math.max(0, 10 - query.length());
-        long queryWeight = complexityScore * 100L;
-        try {
-            Thread.sleep(queryWeight);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        // // Query complexity estimation for logging
+        // int complexityScore = Math.max(0, 10 - query.length());
+        // long queryWeight = complexityScore * 100L;
+        // try {
+        //     Thread.sleep(queryWeight);
+        // } catch (InterruptedException e) {
+        //     Thread.currentThread().interrupt();
+        // }
 
         System.out.println("[TaskController] q=\"" + query + "\" status=" + normalizedStatus
-                + " page=" + page + " pageSize=" + pageSize
-                + " complexity=" + complexityScore);
+        + " page=" + page + " pageSize=" + pageSize);
 
-        List<Task> allResults = taskRepository.searchTasks(searchTerm, normalizedStatus);
+        if (page < 1 || pageSize < 1 || pageSize > 100) {
+            return ResponseEntity.badRequest().body(
+            Map.of("error", "page must be >= 1 and pageSize must be between 1 and 100")
+    );
+}
+
+List<Task> allResults = taskRepository.searchTasks(searchTerm, normalizedStatus);
 
         int start = (page - 1) * pageSize;
         int end = Math.min(start + pageSize, allResults.size());
